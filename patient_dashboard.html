@@ -834,7 +834,7 @@ const currentStepIndex = timelineSteps.indexOf(activeStep);
 
             try {
                 const payload = `${rating}★ - ${comment}`;
-                const res = await authFetch('http://localhost:8080/api/grievances/' + currentFeedbackId + '/feedback', {
+                const res = await authFetch('https://resolve-it.onrender.com/api/grievances/' + currentFeedbackId + '/feedback', {
                     method: 'POST',
                     headers: { 'Content-Type': 'application/json' },
                     body: JSON.stringify(payload)
@@ -868,7 +868,7 @@ const currentStepIndex = timelineSteps.indexOf(activeStep);
         // Backend-powered: load grievances from server
         async function fetchMyGrievances() {
             try {
-                const res = await authFetch('http://localhost:8080/api/grievances/mine');
+                const res = await authFetch('https://resolve-it.onrender.com/api/grievances/mine');
                 if (!res.ok) throw new Error('Failed to fetch');
                 const data = await res.json();
                 // map server data to client shape and normalize status for display
@@ -925,7 +925,7 @@ const currentStepIndex = timelineSteps.indexOf(activeStep);
 
         async function submitGrievanceToServer(payload) {
             try {
-                const res = await authFetch('http://localhost:8080/api/grievances', {
+                const res = await authFetch('https://resolve-it.onrender.com/api/grievances', {
                     method: 'POST',
                     headers: { 'Content-Type': 'application/json' },
                     body: JSON.stringify(payload)
@@ -1066,3 +1066,4 @@ const currentStepIndex = timelineSteps.indexOf(activeStep);
     </script>
 </body>
 </html>
+
