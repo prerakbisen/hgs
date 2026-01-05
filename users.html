@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <title>User Management</title>
+</head>
+<body>
+    <div class="main-content">
+        <div class="header">
+            <h1>User Management</h1>
+            <div>
+                <button onclick="alert('Simulated: Open Add User Form')" class="primary-green" style="padding: 8px 15px; border: none; color: white; border-radius: 5px; cursor: pointer;">+ Add New User</button>
+            </div>
+        </div>
+
+        <div class="grievance-section">
+            <h2>System Users</h2>
+            <table class="grievance-table">
+                <thead>
+                    <tr>
+                        <th>ID</th>
+                        <th>Full Name</th>
+                        <th>Email</th>
+                        <th>Role</th>
+                        <th>Status</th>
+                        <th>Action</th>
+                    </tr>
+                </thead>
+                <tbody id="user-list">
+                    </tbody>
+            </table>
+        </div>
+    </div>
+
+    <script>
+        // Simulated Database: Array of User Objects
+        let users = [
+            { id: 101, name: 'John Doe', email: 'john.d@hgs.com', role: 'Staff', status: 'Active' },
+            { id: 102, name: 'Alice Smith', email: 'a.smith@patient.com', role: 'Patient', status: 'Active' },
+            { id: 103, name: 'Robert Green', email: 'r.green@admin.com', role: 'Admin', status: 'Active' },
+            { id: 104, name: 'Jane Davis', email: 'jane.d@hgs.com', role: 'Staff', status: 'Inactive' },
+        ];
+
+        const userListBody = document.getElementById('user-list');
+
+        // Function to render the user table rows
+        const renderUserTable = () => {
+            userListBody.innerHTML = '';
+            users.forEach(user => {
+                const row = userListBody.insertRow();
+                row.innerHTML = `
+                    <td>${user.id}</td>
+                    <td>${user.name}</td>
+                    <td>${user.email}</td>
+                    <td>${user.role}</td>
+                    <td><span class="status-tag status-${user.status === 'Active' ? 'resolved' : 'pending'}">${user.status}</span></td>
+                    <td>
+                        <button onclick="toggleUserStatus(${user.id})" style="border: none; background: none; cursor: pointer; color: ${user.status === 'Active' ? 'red' : '#2ecc71'}; margin-right: 5px;">${user.status === 'Active' ? 'Deactivate' : 'Activate'}</button>
+                        <button onclick="alert('Simulated: Editing user ${user.id}')" style="border: none; background: none; cursor: pointer; color: #3498db;">Edit</button>
+                    </td>
+                `;
+            });
+        };
+
+        // Function to simulate user status toggle
+        const toggleUserStatus = (id) => {
+            const userIndex = users.findIndex(u => u.id === id);
+            if (userIndex !== -1) {
+                const currentStatus = users[userIndex].status;
+                users[userIndex].status = currentStatus === 'Active' ? 'Inactive' : 'Active';
+                alert(`User ${id} status changed to ${users[userIndex].status}.`);
+                renderUserTable(); // Re-render the table
+            }
+        };
+
+        // Initial load
+        document.addEventListener('DOMContentLoaded', () => {
+            renderUserTable();
+        });
+    </script>
+</body>
+</html>

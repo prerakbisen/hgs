@@ -1,0 +1,286 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <title>Staff Settings | HGS</title>
+  <link rel="stylesheet" href="home.css">
+  <style>
+/* ========== BASE LAYOUT ========== */
+body {
+  font-family: "Segoe UI", system-ui, sans-serif;
+  background: #f3f6fb;
+  margin: 0;
+}
+
+/* ========== SIDEBAR ========== */
+.sidebar {
+  width: 240px;
+  height: 100vh;
+  position: fixed;
+  left: 0;
+  top: 0;
+  background: linear-gradient(180deg,#1f2933,#111827);
+  padding: 22px;
+  color: white;
+}
+
+.sidebar h2 {
+  margin-bottom: 20px;
+  font-size: 22px;
+}
+
+.sidebar ul {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+
+.sidebar ul li {
+  margin-bottom: 6px;
+}
+
+.sidebar a {
+  display: block;
+  padding: 12px 14px;
+  border-radius: 8px;
+  color: #d1d5db;
+  text-decoration: none;
+  transition: 0.2s;
+}
+
+.sidebar a:hover {
+  background: rgba(255,255,255,0.08);
+}
+
+.sidebar a.active {
+  background: #2563eb;
+  color: white;
+}
+
+/* ========== MAIN CONTENT ========== */
+.main-content {
+  margin-left: 260px;
+  padding: 24px;
+}
+
+/* ========== HEADER ========== */
+.header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 24px;
+}
+
+.header h1 {
+  font-size: 26px;
+  color: #1f2933;
+}
+
+.logout-btn {
+  background: #ef4444;
+  color: white;
+  padding: 8px 14px;
+  border-radius: 8px;
+  text-decoration: none;
+  font-weight: 600;
+}
+
+.logout-btn:hover {
+  background: #dc2626;
+}
+
+/* ========== CARDS ========== */
+.section-card {
+  background: white;
+  border-radius: 14px;
+  box-shadow: 0 10px 25px rgba(0,0,0,0.05);
+  padding: 22px;
+  margin-bottom: 24px;
+}
+
+/* ========== FORMS ========== */
+.form-row {
+  display: flex;
+  gap: 14px;
+  flex-wrap: wrap;
+}
+
+.form-row .col {
+  flex: 1;
+  min-width: 220px;
+}
+
+label {
+  display: block;
+  margin-bottom: 6px;
+  font-weight: 600;
+  color: #374151;
+}
+
+input {
+  width: 100%;
+  padding: 10px 12px;
+  border-radius: 8px;
+  border: 1px solid #d1d5db;
+  font-size: 14px;
+}
+
+input:focus {
+  outline: none;
+  border-color: #2563eb;
+}
+
+input[disabled] {
+  background: #f3f4f6;
+}
+
+/* ========== BUTTONS ========== */
+.profile-actions {
+  display: flex;
+  gap: 10px;
+  margin-top: 14px;
+}
+
+.submit-btn {
+  padding: 10px 14px;
+  border-radius: 8px;
+  border: none;
+  cursor: pointer;
+  font-weight: 600;
+}
+
+.primary-green {
+  background: linear-gradient(135deg,#22c55e,#16a34a);
+  color: white;
+}
+
+.primary-green:hover {
+  filter: brightness(1.05);
+}
+
+/* ========== RESPONSIVE ========== */
+@media (max-width: 900px) {
+  .sidebar {
+    position: relative;
+    width: 100%;
+    height: auto;
+  }
+
+  .main-content {
+    margin-left: 0;
+  }
+}
+
+@media (max-width: 768px) {
+  .header {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 12px;
+  }
+
+  .form-row {
+    flex-direction: column;
+  }
+
+  .profile-actions {
+    flex-direction: column;
+  }
+
+  .profile-actions .submit-btn,
+  .profile-actions a {
+    width: 100%;
+    justify-content: center;
+  }
+}
+
+@media (max-width: 520px) {
+  .header h1 {
+    font-size: 22px;
+  }
+
+  .section-card {
+    padding: 16px;
+  }
+
+  input {
+    font-size: 13px;
+    padding: 9px 10px;
+  }
+}
+</style>
+
+</head>
+<body>
+  <div class="sidebar">
+    <h2>HGS Staff</h2>
+    <ul>
+      <li><a href="staff_dashboard.html">Dashboard</a></li>
+      <li><a href="settings_staff.html" class="active">Settings</a></li>
+    </ul>
+  </div>
+
+  <div class="main-content">
+    <div class="header">
+      <h1>Settings</h1>
+      <div style="font-size: 14px; display:flex; align-items:center; gap:12px;">
+        <span id="staff-welcome">Welcome, Staff</span>
+        <a href="home.html" class="logout-btn">Logout</a>
+      </div>
+    </div>
+
+    <div class="section-card">
+      <h2>Profile</h2>
+      <form id="profile-form">
+        <div class="form-row">
+          <div class="col">
+            <label for="name">Name</label>
+            <input id="name" type="text" />
+          </div>
+          <div class="col">
+            <label for="email">Email</label>
+            <input id="email" type="email" disabled />
+          </div>
+        </div>
+        <div class="form-row" style="margin-top:12px;">
+          <div class="col">
+            <label for="phone">Phone</label>
+            <input id="phone" type="text" />
+          </div>
+          <div class="col">
+            <label for="role">Role</label>
+            <input id="role" type="text" disabled />
+          </div>
+        </div>
+        <div class="profile-actions">
+          <button id="save-btn" class="submit-btn primary-green">Save Changes</button>
+          <a href="staff_dashboard.html" class="submit-btn" style="background:#eef0f2; color:#333; border:1px solid #ddd; text-decoration:none; display:inline-flex; align-items:center; padding:8px 12px; border-radius:8px;">Back</a>
+        </div>
+      </form>
+    </div>
+
+    <div class="section-card">
+      <h2>Change Password</h2>
+      <div style="max-width:560px;">
+        <label for="old-password">Old Password</label>
+        <input id="old-password" type="password" />
+        <label for="new-password" style="margin-top:8px;">New Password</label>
+        <input id="new-password" type="password" />
+        <label for="confirm-password" style="margin-top:8px;">Confirm New Password</label>
+        <input id="confirm-password" type="password" />
+        <div class="profile-actions">
+          <button id="change-pwd-btn" class="submit-btn primary-green">Change Password</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <script src="auth.js"></script>
+  <script src="settings.js"></script>
+  <script>
+    document.addEventListener('DOMContentLoaded', () => {
+      try { const u = JSON.parse(localStorage.getItem('user')||'null'); if (u) { document.getElementById('staff-welcome').textContent = `Welcome, ${u.name} (${u.role})`; document.getElementById('email').value = u.email || ''; document.getElementById('name').value = u.name || ''; document.getElementById('phone').value = u.phone || ''; document.getElementById('role').value = u.role || ''; } } catch(e){}
+    });
+  </script>
+</body>
+</html>

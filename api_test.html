@@ -1,0 +1,43 @@
+<!doctype html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <title>API Test</title>
+  <style>body{font-family:Arial;padding:20px}label{display:block;margin-top:8px}</style>
+  <script src="auth.js"></script>
+  <style>
+    * { background-color: #454645; }
+  </style>
+</head>
+<body>
+  <h2>API Test</h2>
+  <div>
+    <strong>Token:</strong>
+    <pre id="token"></pre>
+    <button id="refresh">Refresh</button>
+  </div>
+
+  <h3>Submit Grievance</h3>
+  <label>Title<input id="t"/></label>
+  <label>Category<input id="c"/></label>
+  <label>Description<textarea id="d"></textarea></label>
+  <button id="send">Send</button>
+
+  <h3>Response</h3>
+  <pre id="out"></pre>
+
+  <script>
+    function refreshToken(){ document.getElementById('token').textContent = localStorage.getItem('jwtToken') || '(no token)'; }
+    document.getElementById('refresh').addEventListener('click', refreshToken);
+    refreshToken();
+
+    document.getElementById('send').addEventListener('click', async ()=>{
+      const payload = { title: document.getElementById('t').value, category: document.getElementById('c').value, description: document.getElementById('d').value };
+      const res = await authFetch('http://localhost:8080/api/grievances', { method: 'POST', headers: {'Content-Type':'application/json'}, body: JSON.stringify(payload) });
+      const out = document.getElementById('out');
+      out.textContent = 'status: ' + res.status + '\n';
+      try{ const txt = await res.text(); out.textContent += txt; } catch(e){ out.textContent += 'no body'; }
+    });
+  </script>
+</body>
+</html>

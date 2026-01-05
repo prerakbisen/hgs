@@ -1,0 +1,145 @@
+/* Custom font import (optional, using system default for this example) */
+        /* You can customize the color palette here if needed, but Tailwind defaults are used. */
+
+        /* Ensures the background covers the whole page */
+        body {
+            background-color: #f3f4f6; /* Light gray background */
+            font-family: sans-serif;
+            
+        }
+        /* Make the background video responsive and centered with cover behavior */
+        #myVideo {
+            position: fixed;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            width: auto;
+            height: auto;
+            min-width: 100%;
+            min-height: 100%;
+            object-fit: cover;
+            z-index: -1;
+            pointer-events: none;
+            background: transparent;
+        }
+
+        /* Specific style for the header background */
+        .header-bg {
+            background: linear-gradient(90deg, #234632, #27ae60); /* Green gradient */
+            height: 150px;
+        }
+
+        /* Custom style for the active tab indicator */
+        .tab-active {
+            border-bottom: 3px solid #239452; 
+            font-weight: 600;
+            color: #1a1a1a;
+        }
+
+        /* Logo sizing inside header */
+        .site-logo { width: 56px; height: 56px; }
+
+        /* Slight card improvement */
+        .card { border: 1px solid rgba(16,24,40,0.03); }
+
+        /* Ensure the main content sits above the video and has a subtle backdrop */
+        .content-card {
+            position: relative;
+            z-index: 2;
+            background-color: rgba(255,255,255,0.88);
+            -webkit-backdrop-filter: blur(6px);
+            backdrop-filter: blur(6px);
+        }
+
+        @media (max-width: 520px) {
+            
+            .header-bg { height: 120px; }
+            .site-logo { width: 44px; height: 44px; }
+        }
+        /* Hide large autoplay video on small screens to save bandwidth and avoid layout issues */
+        @media (max-width: 640px) {
+            /* Keep the background video visible on small screens but
+               reduce its forceful min-size so it doesn't overflow */
+            #myVideo {
+                min-width: auto;
+                min-height: auto;
+                width: 120vw; /* slightly larger to cover during panning */
+                height: 120vh;
+            }
+            /* reduce heavy card padding on small screens */
+            .p-8 { padding: 1rem !important; }
+            .text-2xl { font-size: 1.125rem !important; }
+            .md\:text-3xl { font-size: 1.25rem !important; }
+            .max-w-lg { max-width: 92% !important; }
+        }
+
+        /* Large screens: gentle min-width for card */
+        @media (min-width: 1280px) {
+            .max-w-lg { max-width: 720px !important; }
+        }
+        /* --- Animations --- */
+        @keyframes float {
+            
+            0% { transform: translateY(0); }
+            50% { transform: translateY(-6px); }
+            100% { transform: translateY(0); }
+        }
+        .animate-float { animation: float 3s ease-in-out infinite; }
+
+        @keyframes fadeInUp {
+            from { opacity: 0; transform: translateY(10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        .animate-fade-in-up { animation: fadeInUp 320ms cubic-bezier(.2,.8,.2,1) both; }
+
+        @keyframes shake {
+            10%, 90% { transform: translateX(-1px); }
+            20%, 80% { transform: translateX(2px); }
+            30%, 50%, 70% { transform: translateX(-4px); }
+            40%, 60% { transform: translateX(4px); }
+        }
+        .animate-shake { animation: shake 420ms cubic-bezier(.36,.07,.19,.97); }
+
+        @keyframes gradientMove {
+            0% { background-position: 0% 50%; }
+            50% { background-position: 100% 50%; }
+            100% { background-position: 0% 50%; }
+        }
+        .header-bg { background-size: 200% 200%; animation: gradientMove 8s ease infinite; }
+
+        input, select, button { transition: transform .12s ease, box-shadow .12s ease, background-color .12s ease; }
+        input:focus, select:focus { box-shadow: 0 6px 18px rgba(16,185,129,0.08); transform: translateY(-2px); }
+        button:active { transform: scale(.995); }
+
+        /* video play button (visible when autoplay blocked) */
+        #video-play-btn {
+            position: fixed;
+            left: 50%;
+            top: 50%;
+            transform: translate(-50%, -50%);
+            z-index: 1;
+            width: 68px;
+            height: 68px;
+            border-radius: 50%;
+            background: rgba(255,255,255,0.9);
+            border: 0;
+            display: none;
+            align-items: center;
+            justify-content: center;
+            box-shadow: 0 6px 22px rgba(2,6,23,0.24);
+            cursor: pointer;
+        }
+        #video-play-btn::before {
+            content: '';
+            display: inline-block;
+            margin-left: 4px;
+            width: 0;
+            height: 0;
+            border-left: 14px solid #27ae60;
+            border-top: 10px solid transparent;
+            border-bottom: 10px solid transparent;
+        }
+        /* small tweak so play button doesn't cover main card on desktop */
+        @media (min-width: 640px) {
+            #video-play-btn { left: auto; right: 14px; bottom: 14px; top: auto; transform: none; display: none; }
+        }

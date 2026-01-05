@@ -1,0 +1,399 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Admin Dashboard | HGS</title>
+    <style>
+        /* --- General Setup --- */
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: #f4f7f6;
+            color: #333;
+            display: flex;
+            min-height: 100vh;
+        }
+
+        .primary-green { background-color: #2ecc71; }
+        .dark-green { background-color: #27ae60; }
+        .text-primary-green { color: #2ecc71; }
+
+        /* --- Sidebar Navigation --- */
+        .sidebar {
+            width: 250px;
+            background-color: #2c3e50; /* Darker blue/gray for contrast */
+            color: white;
+            padding-top: 20px;
+            position: fixed;
+            height: 100%;
+            box-shadow: 2px 0 5px rgba(0, 0, 0, 0.1);
+            transition: transform 0.3s;
+        }
+
+        .sidebar h2 {
+            text-align: center;
+            margin-bottom: 30px;
+            font-size: 24px;
+            color: #2ecc71;
+            font-weight: bold;
+        }
+
+        .sidebar ul {
+            list-style: none;
+            padding: 0;
+            margin: 0;
+        }
+
+        .sidebar a {
+            display: block;
+            padding: 15px 25px;
+            color: white;
+            text-decoration: none;
+            transition: background-color 0.2s, color 0.2s;
+            display: flex;
+            align-items: center;
+            font-size: 16px;
+        }
+
+        .sidebar a svg {
+            width: 20px;
+            height: 20px;
+            margin-right: 10px;
+        }
+        
+        .sidebar a:hover, .sidebar a.active {
+            background-color: #34495e;
+            color: #2ecc71;
+        }
+
+        /* --- Main Content Area --- */
+        .main-content {
+            margin-left: 250px; /* Offset for the sidebar */
+            flex-grow: 1;
+            padding: 20px;
+            transition: margin-left 0.3s;
+        }
+
+        /* --- Header --- */
+        .header {
+            background-color: white;
+            padding: 15px 20px;
+            border-bottom: 1px solid #ddd;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 20px;
+            border-radius: 8px;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
+        }
+
+        .header h1 {
+            margin: 0;
+            font-size: 24px;
+            font-weight: 600;
+        }
+
+        .user-info a {
+            color: #555;
+            text-decoration: none;
+            padding: 8px 15px;
+            border-radius: 5px;
+            border: 1px solid #ddd;
+            transition: background-color 0.2s;
+        }
+        
+        .user-info a:hover {
+            background-color: #f0f0f0;
+        }
+
+        /* --- Dashboard Widgets --- */
+        .widgets-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 20px;
+            margin-bottom: 30px;
+        }
+
+        .widget {
+            background-color: white;
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.05);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .widget-content h3 {
+            margin: 0 0 5px 0;
+            font-size: 16px;
+            color: #777;
+        }
+
+        .widget-content p {
+            margin: 0;
+            font-size: 32px;
+            font-weight: bold;
+        }
+
+        .widget-icon {
+            width: 50px;
+            height: 50px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .widget-icon svg {
+            width: 24px;
+            height: 24px;
+            fill: white;
+        }
+
+        /* Widget Colors */
+        .widget.total .widget-icon { background-color: #2ecc71; }
+        .widget.pending .widget-icon { background-color: #f39c12; } /* Orange */
+        .widget.resolved .widget-icon { background-color: #3498db; } /* Blue */
+        .widget.users .widget-icon { background-color: #9b59b6; } /* Purple */
+
+
+        /* --- Grievance Table --- */
+        .grievance-section {
+            background-color: white;
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.05);
+        }
+
+        .grievance-section h2 {
+            font-size: 20px;
+            margin-top: 0;
+            margin-bottom: 15px;
+            border-bottom: 2px solid #eee;
+            padding-bottom: 10px;
+        }
+
+        .grievance-table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+
+        .grievance-table th, .grievance-table td {
+            padding: 12px 15px;
+            text-align: left;
+            border-bottom: 1px solid #eee;
+        }
+
+        .grievance-table th {
+            background-color: #f8f8f8;
+            font-weight: 600;
+            color: #555;
+            text-transform: uppercase;
+            font-size: 12px;
+        }
+
+        .grievance-table tr:hover {
+            background-color: #fcfcfc;
+        }
+
+        .status-tag {
+            padding: 4px 8px;
+            border-radius: 12px;
+            font-size: 12px;
+            font-weight: bold;
+            color: white;
+            text-align: center;
+            display: inline-block;
+        }
+
+        .status-pending { background-color: #f39c12; }
+        .status-resolved { background-color: #2ecc71; }
+        .status-in-review { background-color: #3498db; }
+        
+        /* --- Media Queries (Responsiveness) --- */
+        @media (max-width: 768px) {
+            .sidebar {
+                width: 70px; /* Collapsed sidebar width */
+                transform: translateX(-100%);
+                z-index: 100;
+            }
+
+            .main-content {
+                margin-left: 0;
+            }
+
+            /* Basic hover to show full menu on smaller screens (requires JS for better mobile toggle) */
+            .sidebar:hover {
+                width: 250px;
+                transform: translateX(0);
+            }
+            .sidebar a span {
+                display: none;
+            }
+            .sidebar:hover a span {
+                display: inline;
+            }
+            .sidebar:hover .main-content {
+                margin-left: 250px;
+            }
+        }
+    </style>
+</head>
+<body>
+
+    <div class="sidebar">
+        <h2>HGS Admin</h2>
+        <ul>
+            <li>
+                <a href="#" class="active">
+                    <svg fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg"><path d="M10.707 2.293a1 1 0 00-1.414 0l-7 7a1 1 0 001.414 1.414L4 10.414V17a1 1 0 001 1h2a1 1 0 001-1v-2a1 1 0 011-1h2a1 1 0 011 1v2a1 1 0 001 1h2a1 1 0 001-1v-6.586l.293.293a1 1 0 001.414-1.414l-7-7z"></path></svg>
+                    <span>Dashboard</span>
+                </a>
+            </li>
+            <li>
+                <a href="#">
+                    <svg fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg"><path d="M9 2a1 1 0 000 2h2a1 1 0 100-2H9z"></path><path fill-rule="evenodd" d="M4 5a2 2 0 012-2 3 3 0 003 3h2a3 3 0 003-3 2 2 0 012 2v11a2 2 0 01-2 2H6a2 2 0 01-2-2V5zm3 4a1 1 0 000 2h.01a1 1 0 100-2H7zm3 0a1 1 0 000 2h3a1 1 0 100-2h-3zm-3 4a1 1 0 100 2h.01a1 1 0 100-2H7zm3 0a1 1 0 100 2h3a1 1 0 100-2h-3z" clip-rule="evenodd"></path></svg>
+                    <span>Grievances</span>
+                </a>
+            </li>
+            <li>
+                <a href="#">
+                    <svg fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg"><path d="M13 6a3 3 0 11-6 0 3 3 0 016 0z"></path><path fill-rule="evenodd" d="M18 8a2 2 0 012 2v6a2 2 0 01-2 2H2a2 2 0 01-2-2v-6a2 2 0 012-2h12a2 2 0 002 2zm-5 4a1 1 0 100 2h.01a1 1 0 100-2H13zm-5-3a1 1 0 100 2h.01a1 1 0 100-2H8zm-2 2a1 1 0 100 2h.01a1 1 0 100-2H6z" clip-rule="evenodd"></path></svg>
+                    <span>Users</span>
+                </a>
+            </li>
+            <li>
+                <a href="#">
+                    <svg fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg"><path d="M10 2a6 6 0 00-6 6v3.586l-.707.707A1 1 0 004 14h12a1 1 0 00.707-1.707L16 11.586V8a6 6 0 00-6-6zM10 18a3 3 0 01-3-3h6a3 3 0 01-3 3z"></path></svg>
+                    <span>Reports</span>
+                </a>
+            </li>
+            <li>
+                <a href="#">
+                    <svg fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg"><path fill-rule="evenodd" d="M11.49 3.17c-.38-.21-.88-.21-1.26 0l-2.43 1.34a1 1 0 00-.5.87v3.46c0 .48.37.88.87.88h3.46c.48 0 .88-.37.88-.87V4.4c0-.36-.19-.7-.5-.87l-2.43-1.34z" clip-rule="evenodd"></path><path d="M10 18a8 8 0 100-16 8 8 0 000 16z"></path></svg>
+                    <span>Settings</span>
+                </a>
+            </li>
+        </ul>
+    </div>
+
+    <div class="main-content">
+        
+        <div class="header">
+            <h1>Analytics Overview</h1>
+            <div class="user-info">
+                <span>Welcome, Admin User</span>
+                <a href="index.html" style="margin-left: 15px;">Logout</a>
+            </div>
+        </div>
+
+        <div class="widgets-grid">
+            
+            <div class="widget total">
+                <div class="widget-content">
+                    <h3>Total Grievances</h3>
+                    <p>1,245</p>
+                </div>
+                <div class="widget-icon">
+                    <svg fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg"><path d="M9 2a1 1 0 000 2h2a1 1 0 100-2H9z"></path><path fill-rule="evenodd" d="M4 5a2 2 0 012-2 3 3 0 003 3h2a3 3 0 003-3 2 2 0 012 2v11a2 2 0 01-2 2H6a2 2 0 01-2-2V5zm3 4a1 1 0 000 2h.01a1 1 0 100-2H7zm3 0a1 1 0 000 2h3a1 1 0 100-2h-3zm-3 4a1 1 0 100 2h.01a1 1 0 100-2H7zm3 0a1 1 0 100 2h3a1 1 0 100-2h-3z" clip-rule="evenodd"></path></svg>
+                </div>
+            </div>
+
+            <div class="widget pending">
+                <div class="widget-content">
+                    <h3>Pending Grievances</h3>
+                    <p>128</p>
+                </div>
+                <div class="widget-icon">
+                    <svg fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg"><path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm1-12a1 1 0 10-2 0v4a1 1 0 00.293.707l3 3a1 1 0 001.414-1.414L11 9.586V6z" clip-rule="evenodd"></path></svg>
+                </div>
+            </div>
+
+            <div class="widget resolved">
+                <div class="widget-content">
+                    <h3>Resolved This Month</h3>
+                    <p>54</p>
+                </div>
+                <div class="widget-icon">
+                    <svg fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg"><path fill-rule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clip-rule="evenodd"></path></svg>
+                </div>
+            </div>
+
+            <div class="widget users">
+                <div class="widget-content">
+                    <h3>Active Users</h3>
+                    <p>87</p>
+                </div>
+                <div class="widget-icon">
+                    <svg fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg"><path d="M13 6a3 3 0 11-6 0 3 3 0 016 0zM18 8a2 2 0 00-2-2h-2a2 2 0 00-2 2v1h-2V8a2 2 0 00-2-2H4a2 2 0 00-2 2v1H0v2h1v1a10 10 0 001 3v1a2 2 0 002 2h12a2 2 0 002-2v-1a10 10 0 001-3v-1h1v-2h-2V8z"></path></svg>
+                </div>
+            </div>
+
+        </div>
+
+        <div class="grievance-section">
+            <h2>Recent Grievances</h2>
+            <table class="grievance-table">
+                <thead>
+                    <tr>
+                        <th>ID</th>
+                        <th>Subject</th>
+                        <th>Reported By</th>
+                        <th>Role</th>
+                        <th>Date</th>
+                        <th>Status</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td>HGS-0128</td>
+                        <td>Issue with Billing Department</td>
+                        <td>Patient A</td>
+                        <td>Patient</td>
+                        <td>2025-11-20</td>
+                        <td><span class="status-pending status-tag">Pending</span></td>
+                    </tr>
+                    <tr>
+                        <td>HGS-0127</td>
+                        <td>Lack of medical supplies</td>
+                        <td>Staff B</td>
+                        <td>Staff</td>
+                        <td>2025-11-19</td>
+                        <td><span class="status-resolved status-tag">Resolved</span></td>
+                    </tr>
+                    <tr>
+                        <td>HGS-0126</td>
+                        <td>Cleanliness in common area</td>
+                        <td>Patient C</td>
+                        <td>Patient</td>
+                        <td>2025-11-18</td>
+                        <td><span class="status-in-review status-tag">In Review</span></td>
+                    </tr>
+                    <tr>
+                        <td>HGS-0125</td>
+                        <td>Scheduling Conflict</td>
+                        <td>Staff D</td>
+                        <td>Staff</td>
+                        <td>2025-11-17</td>
+                        <td><span class="status-resolved status-tag">Resolved</span></td>
+                    </tr>
+                    <tr>
+                        <td>HGS-0124</td>
+                        <td>Nurse Attentiveness</td>
+                        <td>Patient E</td>
+                        <td>Patient</td>
+                        <td>2025-11-16</td>
+                        <td><span class="status-in-review status-tag">In Review</span></td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+
+    </div>
+
+</body>
+</html>
