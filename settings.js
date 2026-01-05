@@ -4,7 +4,7 @@ async function fetchProfile() {
     if (!token) return null;
 
     try {
-        const res = await fetch('http://localhost:8080/api/profile', {
+        const res = await fetch('https://resolve-it.onrender.com/api/profile', {
             headers: { 'Authorization': 'Bearer ' + token }
         });
         if (!res.ok) return null;
@@ -17,7 +17,7 @@ async function fetchProfile() {
 
 async function updateProfile(data) {
     const token = localStorage.getItem('jwtToken');
-    const res = await fetch('http://localhost:8080/api/profile', {
+    const res = await fetch('https://resolve-it.onrender.com/api/profile', {
         method: 'PUT',
         headers: { 'Content-Type': 'application/json', 'Authorization': 'Bearer ' + token },
         body: JSON.stringify(data)
@@ -27,7 +27,7 @@ async function updateProfile(data) {
 
 async function changePassword(oldPwd, newPwd) {
     const token = localStorage.getItem('jwtToken');
-    const res = await fetch('http://localhost:8080/api/profile/change-password', {
+    const res = await fetch('https://resolve-it.onrender.com/api/profile/change-password', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json', 'Authorization': 'Bearer ' + token },
         body: JSON.stringify({ oldPassword: oldPwd, newPassword: newPwd })
@@ -68,3 +68,4 @@ document.addEventListener('DOMContentLoaded', async () => {
         else alert('Password change failed');
     });
 });
+
