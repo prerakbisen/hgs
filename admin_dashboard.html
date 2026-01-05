@@ -472,7 +472,7 @@ button.update-status:hover {
 <script>
         async function loadAdminGrievances(){
             try{
-                const res = await authFetch('http://localhost:8080/api/grievances');
+                const res = await authFetch('https://resolve-it.onrender.com/api/grievances');
                 if(!res.ok) throw new Error('Failed');
                 const data = await res.json();
                     const tbody = document.querySelector('.grievance-section tbody');
@@ -513,7 +513,7 @@ button.update-status:hover {
                         const id = sel.getAttribute('data-id');
                         const status = sel.value;
                         try{
-                            const r = await authFetch('http://localhost:8080/api/grievances/'+id+'/status?status='+encodeURIComponent(status), { method: 'PUT' });
+                            const r = await authFetch('https://resolve-it.onrender.com/api/grievances/'+id+'/status?status='+encodeURIComponent(status), { method: 'PUT' });
                             if(!r.ok){ const t = await r.text().catch(()=>null); throw new Error(r.status+' '+t); }
                             alert('Updated');
                             await loadAdminGrievances();
@@ -631,7 +631,7 @@ button.update-status:hover {
 
     async function loadAdminGrievances(){
         try{
-            const res = await authFetch('http://localhost:8080/api/grievances');
+            const res = await authFetch('https://resolve-it.onrender.com/api/grievances');
             if(!res.ok) { const t = await res.text().catch(()=>null); console.error('loadAdminGrievances: fetch failed', res.status, t); throw new Error('Failed: '+res.status); }
             const data = await res.json();
             console.log('loadAdminGrievances: got', data && data.length ? data.length + ' grievances' : 'no grievances', data && data[0] ? { sample: data[0], sampleImages: (data[0].images || []).slice(0,3) } : null);
@@ -725,7 +725,7 @@ button.update-status:hover {
                 const id = sel.getAttribute('data-id');
                 const status = sel.value;
                 try{
-                    const r = await authFetch('http://localhost:8080/api/grievances/'+id+'/status?status='+encodeURIComponent(status), { method: 'PUT' });
+                    const r = await authFetch('https://resolve-it.onrender.com/api/grievances/'+id+'/status?status='+encodeURIComponent(status), { method: 'PUT' });
                     if(!r.ok){ const t = await r.text().catch(()=>null); throw new Error(r.status+' '+t); }
                     await loadAdminGrievances();
                 }catch(e){ console.error(e); alert('Update failed: '+e.message); }
@@ -761,3 +761,4 @@ button.update-status:hover {
 
     document.addEventListener('DOMContentLoaded', loadAdminGrievances);
 </script>
+
