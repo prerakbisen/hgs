@@ -581,7 +581,7 @@
 
         async function loadStaffCases() {
             try {
-                const res = await authFetch('http://localhost:8080/api/grievances');
+                const res = await authFetch('https://resolve-it.onrender.com/api/grievances');
                 if (!res.ok) {
                     const t = await res.text().catch(()=>null);
                     console.error('loadStaffCases: fetch failed', res.status, t);
@@ -717,7 +717,7 @@
 
             // Call backend to update status
             try {
-                const res = await authFetch('http://localhost:8080/api/grievances/' + currentCaseId + '/status?status=' + encodeURIComponent(newStatus), { method: 'PUT' });
+                const res = await authFetch('https://resolve-it.onrender.com/api/grievances/' + currentCaseId + '/status?status=' + encodeURIComponent(newStatus), { method: 'PUT' });
                 if (!res.ok) {
                     const txt = await res.text().catch(()=>null);
                     throw new Error('Update failed: ' + res.status + ' ' + txt);
@@ -747,4 +747,5 @@
         });
     </script>
 </body>
+
 </html>
