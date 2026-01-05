@@ -44,7 +44,7 @@ function toggleError(inputElement, errorElement, isInvalid) {
 // ========================================================
 async function loginUserBackend(email, password) {
     try {
-        const res = await fetch("http://localhost:8080/api/auth/login", {
+        const res = await fetch("https://resolve-it.onrender.com/api/auth/login", {
             method: "POST",
             headers: { "Content-Type": "application/json" },
             body: JSON.stringify({ email, password })
@@ -123,7 +123,7 @@ async function validateLogin(event) {
 // ========================================================
 async function registerUserBackend(userObj) {
     try {
-        const res = await fetch("http://localhost:8080/api/auth/register", {
+        const res = await fetch("https://resolve-it.onrender.com/api/auth/register", {
             method: "POST",
             headers: { "Content-Type": "application/json" },
             body: JSON.stringify(userObj)
@@ -271,7 +271,7 @@ function initForgotPassword() {
         if (!identifier) return alert('Enter email or phone');
 
         try {
-            const res = await fetch('http://localhost:8080/api/auth/forgot/request', {
+            const res = await fetch('https://resolve-it.onrender.com/api/auth/forgot/request', {
                 method: 'POST',
                 headers: { 'Content-Type': 'application/json' },
                 body: JSON.stringify({ identifier })
@@ -306,7 +306,7 @@ function initForgotPassword() {
         if (newPassword !== confirm) return alert('Passwords do not match');
 
         try {
-            const res = await fetch('http://localhost:8080/api/auth/forgot/reset', {
+            const res = await fetch('https://resolve-it.onrender.com/api/auth/forgot/reset', {
                 method: 'POST',
                 headers: { 'Content-Type': 'application/json' },
                 body: JSON.stringify({ identifier, otp, newPassword })
@@ -325,3 +325,4 @@ function initForgotPassword() {
         }
     });
 }
+
